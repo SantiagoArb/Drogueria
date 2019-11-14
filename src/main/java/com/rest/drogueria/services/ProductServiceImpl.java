@@ -13,7 +13,7 @@ import com.rest.drogueria.dto.Producto;
 public class ProductServiceImpl implements ProductService{
 	
 	@Autowired
-	private ProductoDaoImpl dao;
+	private ProductoDao dao;
 	@Transactional
 	public List<Producto> findAll() {
         // TODO Auto-generated method stub
