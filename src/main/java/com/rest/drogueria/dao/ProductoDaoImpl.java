@@ -8,15 +8,19 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.StoredProcedureQuery;
 
 import org.springframework.transaction.annotation.Transactional;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.rest.drogueria.dto.Producto;
+import com.rest.drogueria.repository.ProductRepository;
 @Repository
 public class ProductoDaoImpl implements ProductoDao{
 	
 	@PersistenceContext
 	private EntityManager em;
+
+    @Autowired
+    private ProductRepository productRepo;
 	
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly=true)
@@ -41,6 +45,38 @@ public class ProductoDaoImpl implements ProductoDao{
 			System.out.println(ex.getMessage());
 		}
 		return respuesta;
+	}
+
+	@Override
+	public Producto guardarProducto(Producto prod) {
+		
+		return productRepo.save(prod);
+	}
+		
+	
+
+	@Override
+	public boolean actualizarProducto(Producto prod) {
+		// TODO Auto-generated method stub
+		try {
+		productRepo.updateUProductInfoById(prod.getNombre_producto(), prod.getValor_producto(), prod.getId_producto());
+		}catch(Exception ex) {
+			System.out.println(ex.getMessage());
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public boolean eliminarProducto(Producto prod) {
+		
+		try {
+		productRepo.deleteById(Long.valueOf(prod.getId_producto()));
+		}catch(Exception ex) {
+			System.out.println(ex.getMessage());
+			return false;
+		}
+		return true;
 	}
 
 }

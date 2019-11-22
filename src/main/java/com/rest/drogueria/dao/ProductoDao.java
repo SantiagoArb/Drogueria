@@ -8,5 +8,8 @@ public interface ProductoDao {
 	
 	public List<Producto> findAll();
 	public String save(int id_venta);
+	public Producto guardarProducto(Producto prod);
+	public boolean actualizarProducto(Producto prod);
+	public boolean eliminarProducto(Producto prod);
 
 }
