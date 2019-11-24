@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.StoredProcedureQuery;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.rest.drogueria.dto.Producto;
+import com.rest.drogueria.dto.Tipo_Producto;
 import com.rest.drogueria.repository.ProductRepository;
 @Repository
 public class ProductoDaoImpl implements ProductoDao{
@@ -28,7 +30,7 @@ public class ProductoDaoImpl implements ProductoDao{
 	public List<Producto> findAll() {
 		// TODO Auto-generated method stub
 		System.out.println("In dao");
-		return em.createQuery("from Producto").getResultList();
+		return em.createQuery("from Producto order by ID_PRODUCTO").getResultList();
 	}
 
 	@Override
@@ -49,12 +51,15 @@ public class ProductoDaoImpl implements ProductoDao{
 
 	@Override
 	public Producto guardarProducto(Producto prod) {
-		
+		//int id = productRepo.getNextSeriesId();
+		//System.out.println("ID de seq: "+ prod.getId_producto());
+		//prod.setId_producto(id);
+		//System.out.println("ID de seq: "+ prod.getId_producto());
 		return productRepo.save(prod);
 	}
 		
 	
-
+/*
 	@Override
 	public boolean actualizarProducto(Producto prod) {
 		// TODO Auto-generated method stub
@@ -65,18 +70,26 @@ public class ProductoDaoImpl implements ProductoDao{
 			return false;
 		}
 		return true;
-	}
+	}*/
 
 	@Override
 	public boolean eliminarProducto(Producto prod) {
 		
 		try {
-		productRepo.deleteById(Long.valueOf(prod.getId_producto()));
+			productRepo.eliminarProducto(prod.getId_producto());
+			
 		}catch(Exception ex) {
 			System.out.println(ex.getMessage());
 			return false;
 		}
 		return true;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly=true)
+	@Override
+	public List<Tipo_Producto> getTipos() {
+		return em.createQuery("from Tipo_producto").getResultList();
 	}
 
 }
