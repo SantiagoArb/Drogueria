@@ -18,12 +18,22 @@ public class ProductServiceImpl implements ProductService{
 	@Transactional
 	public List<Producto> findAll() {
         // TODO Auto-generated method stub
-        return dao.findAll();
+        //return dao.findAll();
+		return dao.ObtenerProductos();
     }
 	@Override
-	public String save(int id_venta) {
+	public String save(Producto prod) {
 		// TODO Auto-generated method stub
-		return dao.save(id_venta);
+		String resp = "";
+		if(prod.getId_producto() == 0) {
+
+			resp =  dao.save(prod);
+		}else {
+			if(prod.getId_producto() != 0) {
+				resp = dao.update(prod);
+			}
+		}
+		return resp;
 	}
 	@Override
 	public Producto guardarProducto(Producto prod) {

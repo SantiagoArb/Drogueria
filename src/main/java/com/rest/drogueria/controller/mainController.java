@@ -41,7 +41,7 @@ public class mainController {
     public List<Tipo_Producto> getAllTipos(){
     	return this.service.getTipos();
     }
-    
+    /*
     @RequestMapping("/saveProduct")
     public Producto guardarProducto(@RequestParam(value="id") int id,@RequestParam(value="nombre") String name,@RequestParam(value="valor") long valor,@RequestParam(value="id_tipo") int id_tipo,@RequestParam(value="id_peligroso") int peligroso,@RequestParam(value="id_libre")int libre){
     	//li = this.service.findAll();
@@ -49,6 +49,15 @@ public class mainController {
     	Producto prod = new Producto(id,name,valor,libre,peligroso,id_tipo);
     	
     	return this.service.guardarProducto(prod);
+    }
+    */
+    @RequestMapping("/saveProduct")
+    public String guardarProducto(@RequestParam(value="id") int id,@RequestParam(value="nombre") String name,@RequestParam(value="valor") long valor,@RequestParam(value="id_tipo") int id_tipo,@RequestParam(value="id_peligroso") int peligroso,@RequestParam(value="id_libre")int libre){
+    	//li = this.service.findAll();
+    	List<Producto> lprod;
+    	Producto prod = new Producto(id,name,valor,libre,peligroso,id_tipo);
+    	
+    	return this.service.save(prod);
     }
     
     @RequestMapping("/delete")
